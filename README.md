@@ -1,5 +1,5 @@
 # aws
-Repository for my YouTube Channel
+Accompanying repository for my YouTube Channel
 
 |YouTube Channel|Playlist|
 |-|-|
