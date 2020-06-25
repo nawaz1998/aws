@@ -1,5 +1,9 @@
 # aws
+<<<<<<< HEAD
 Accompanying repository for my YouTube Channel
+=======
+Repository for my YouTube channel
+>>>>>>> ca734f12e93edc186ed8c9bfa9fd32f87619a76b
 
 |YouTube Channel|Playlist|
 |-|-|
