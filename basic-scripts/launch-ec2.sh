@@ -27,6 +27,7 @@ function launch_instance()
 #	2. security group
 #	3. instances" WORK
 
+echo -e "\e[4;51m WELCOME TO AWS LAUNCH INSTANCE ONE TIME \e[0m"
 read -p "Do you want to create a keypair (y/n): " ANSWER
 
 if [ $ANSWER == 'y' ]
@@ -40,50 +41,52 @@ fi
 
 ############# 1. KEYPAIR
 
-echo "creating the key"
+echo -e "\e[1;41m creating the key \e[0m"
 create_key
 
-echo "listing the keypair"
+echo -e "\e[1;41m listing the keypair \e0m"
 display_key
+
+echo -e "\e[3;32m Key has been downloaded to present working directory \e[0m"
 
 ############# 2. SECURITY GROUP
 
-echo "let's create a security group"
+echo -e "\e[1;41m let's create a security group\e[0m"
 
 read -p "Name of the SG: " SGNAME
 read -p "Description for SG: " SGDESC
 read -p "VPC ID for SG: " VPCID
 
-echo "Creating the security group..."
+echo -e "\e[1;41m Creating the security group... \e[0m"
 create_sg
-echo "Security group created."
+echo -e "\e[1'41m Security group created. \e[0m"
 display_sg
 
 ############# 3. AUTHORIZE SECURITY INGRESS
 
-echo "now we have to create the inbound rule"
+echo -e "\e[1;41m now we have to create the inbound rule \e[0m"
 read -p "Enter security group ID: " SGID
 read -p "Enter protocol: " PROTOCOL
 read -p "Enter the port number: " PORT
 read -p "Enter your CIDR: " CIDR
-echo "GOT REQUIRED INFORMATION"
-echo "Creating the INGRESS RULE"
+echo -e "\e[1;41m GOT REQUIRED INFORMATION \e[0m"
+echo -e "\e[1;41m Creating the INGRESS RULE \e[0m"
 authorize_ingress
-echo "INGRESS RULE CREATED"
-echo "Displaying updated security group"
+echo -e "\e[1;41m INGRESS RULE CREATED \e[0m"
+echo -e "\e[1;41m Displaying updated security group \e[0m"
 display_sg
 
 ############# 4. LAUNCH INSTANCE
 
-echo "Need some more info for launching the instance"
+echo -e "\e[1;41m Need some more info for launching the instance \e[0m"
 read -p "Enter IMAGE ID: " AMI
 read -p "Enter count: " COUNT
 read -p "Enter instance type: " INSTYPE
 read -p "Enter subnet ID: " SUBNET
 
 launch_instance
-echo "Instance launched successfully"
-echo "displaying instances"
+echo -e "\e[1;41m Instance launched successfully \e[0m"
+echo -e "\e[1;41m displaying instances \e[0m"
 display_instance
 
 ############
