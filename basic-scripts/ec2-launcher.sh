@@ -2,23 +2,23 @@
 echo -e "\e[1;51m MAKE SURE AWS CLI IS CONFIGURED PROPERLY \e[0m"
 #FUNCTIONS
 function  create_key() 
-	{ aws ec2 create-key-pair --key-name "$KEYNAME" --query 'Keymaterial' --output text > "${KEYNAME}.pem" ; }
+	{ aws ec2 create-key-pair --key-name $KEYNAME --query 'Keymaterial' --output text > ${KEYNAME}.pem ; }
 function display_key() 
 	{ aws ec2 describe-key-pairs ; }
 function create_sg() 
-	{ aws ec2 create-security-group --group-name "$SGNAME" --description "$SGDESC" --vpc-id "$VPCID" ; }
+	{ aws ec2 create-security-group --group-name $SGNAME --description "$SGDESC" --vpc-id $VPCID ; }
 
 function display_sg() 
 	{ aws ec2 describe-security-groups ; }
 
 function authorize_ingress() 
-	{ aws ec2 authorize-security-group-ingress --group-id "$SGID" --protocol "$PROTOCOL" --port "$PORT" --cidr "$CIDR" ; } 
+	{ aws ec2 authorize-security-group-ingress --group-id $SGID --protocol $PROTOCOL --port $PORT --cidr $CIDR ; } 
 
 function display_instance() 
 	{ aws ec2 describe-instances ; }
 
 function launch_instance() 
-	{ aws ec2 run-instances --image-id "$AMI" --count "$COUNT" --instance-type "$INSTYPE" --key-name "$KEYNAME" --security-group-ids "$SGID" --subnet-id "$SUBNET" ; }
+	{ aws ec2 run-instances --image-id $AMI --count $COUNT --instance-type $INSTYPE --key-name $KEYNAME --security-group-ids $SGID --subnet-id $SUBNET ; }
 
 #read -p "you wanna work with? 
 #	1. keys
