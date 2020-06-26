@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e "\e[1;51m MAKE SURE AWS CLI IS CONFIGURED PROPERLY \e[0m"
 #FUNCTIONS
 
 function  create_key() 
