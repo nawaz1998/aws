@@ -1,63 +1,62 @@
 #!/bin/bash
 echo -e "\e[1;51m MAKE SURE AWS CLI IS CONFIGURED PROPERLY \e[0m"
 #FUNCTIONS
-
 function  create_key() 
-	{ aws ec2 create-key-pair --key-name $KEYNAME --query 'Keymaterial' --output text > $KEYNAME.pem ; }
-
+	{ aws ec2 create-key-pair --key-name "$KEYNAME" --query 'Keymaterial' --output text > "${KEYNAME}.pem" ; }
 function display_key() 
 	{ aws ec2 describe-key-pairs ; }
-
 function create_sg() 
-	{ aws ec2 create-security-group --group-name $SGNAME --description $SGDESC --vpc-id $VPCID ; }
+	{ aws ec2 create-security-group --group-name "$SGNAME" --description "$SGDESC" --vpc-id "$VPCID" ; }
 
 function display_sg() 
 	{ aws ec2 describe-security-groups ; }
 
 function authorize_ingress() 
-	{ aws ec2 authorize-security-group-ingress --group-id $SGID --protocol $PROTOCOL --port $PORT --cidr $CIDR ; } 
+	{ aws ec2 authorize-security-group-ingress --group-id "$SGID" --protocol "$PROTOCOL" --port "$PORT" --cidr "$CIDR" ; } 
 
 function display_instance() 
 	{ aws ec2 describe-instances ; }
 
 function launch_instance() 
-	{ aws ec2 run-instances --image-id $AMI --count $COUNT --instance-type $INSTYPE --key-name $KEYNAME --security-group-ids $SGID --subnet-id $SUBNET ; }
+	{ aws ec2 run-instances --image-id "$AMI" --count "$COUNT" --instance-type "$INSTYPE" --key-name "$KEYNAME" --security-group-ids "$SGID" --subnet-id "$SUBNET" ; }
 
 #read -p "you wanna work with? 
 #	1. keys
 #	2. security group
 #	3. instances" WORK
 
-echo -e "\e[4;51m WELCOME TO AWS LAUNCH INSTANCE ONE TIME \e[0m"
+echo -e "\e[2;51m WELCOME TO AWS LAUNCH INSTANCE ONE TIME \e[0m"
+echo -e "\e[2;51m if you have the key make sure to keep the key in the directory where this script resides... \e[0m"
 read -p "Do you want to create a keypair (y/n): " ANSWER
+
+############# 1. KEYS
 
 if [ $ANSWER == 'y' ]
 then
 	read -p "Enter the name of the key: " KEYNAME
+	echo -e "\e[1;41m creating the key \e[0m"
+	create_key
+	echo -e "\e[1;41m listing the keypair \e0m"
+	display_key
+	read -p "press enter to continue/ ctrl+c to exit"
+	echo -e "\e[3;32m Key has been downloaded to present working directory \e[0m"
 else
-	echo "okay"
-	exit
+	read -p "do you want to use an existing keypair (y/n) ?" ANSWER2
+	if [ $ANSWER2 == 'y' ]
+	then
+		read -p "Enter the key name: " KEYNAME
+	else
+		echo "not creating any keypair"
+		read -p "press enter to continue/ ctrl+c to exit"
+	fi
 fi
-#echo $KEYNAME.pem
-
-############# 1. KEYPAIR
-
-echo -e "\e[1;41m creating the key \e[0m"
-create_key
-
-echo -e "\e[1;41m listing the keypair \e0m"
-display_key
-
-echo -e "\e[3;32m Key has been downloaded to present working directory \e[0m"
 
 ############# 2. SECURITY GROUP
 
 echo -e "\e[1;41m let's create a security group\e[0m"
-
 read -p "Name of the SG: " SGNAME
 read -p "Description for SG: " SGDESC
 read -p "VPC ID for SG: " VPCID
-
 echo -e "\e[1;41m Creating the security group... \e[0m"
 create_sg
 echo -e "\e[1'41m Security group created. \e[0m"
@@ -84,7 +83,6 @@ read -p "Enter IMAGE ID: " AMI
 read -p "Enter count: " COUNT
 read -p "Enter instance type: " INSTYPE
 read -p "Enter subnet ID: " SUBNET
-
 launch_instance
 echo -e "\e[1;41m Instance launched successfully \e[0m"
 echo -e "\e[1;41m displaying instances \e[0m"
